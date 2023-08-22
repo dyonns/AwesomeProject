@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import {
   StyleSheet,
@@ -5,82 +6,140 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
+  ImageBackground,
 } from "react-native";
 
-const LoginScreen = ({ navigation }) => {
-  const [isFocusedEmail, setIsFocusedEmail] = useState(false);
+import BgImage from "../images/Photo_min.jpg";
+
+const LoginScreen = () => {
+  const [isFocusedName, setIsFocusedName] = useState(false);
   const [isFocusedPassword, setIsFocusedPassword] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isShowKeyboard, setIsShowKeyboard] = useState(false);
 
-  const handleLogin = () => {};
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
+  const navigation = useNavigation();
+
+  const onLogin = () => {
+    // Alert.alert("Credentials", `${name} + ${password}`);
+    navigateToCreatePostsScreen();
+  };
 
   const navigateToRegistration = () => {
     navigation.navigate("RegistrationScreen");
   };
 
+  const navigateToCreatePostsScreen = () => {
+    navigation.navigate("CreatePostsScreen");
+  };
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Увійти</Text>
-      <TextInput
-        style={[styles.input, isFocusedEmail && styles.inputActive]}
-        placeholder="Введіть ім'я користувача"
-        onFocus={() => setIsFocusedEmail(true)}
-        onBlur={() => setIsFocusedEmail(false)}
-      />
-
-      <View style={styles.passwordInputContainer}>
-        <TextInput
-          style={[isFocusedPassword && styles.inputActive]}
-          placeholder="Пароль"
-          secureTextEntry={!isPasswordVisible}
-          onFocus={() => setIsFocusedPassword(true)}
-          onBlur={() => setIsFocusedPassword(false)}
-        />
-        <TouchableOpacity
-          style={styles.showPasswordButton}
-          onPress={() => setIsPasswordVisible(!isPasswordVisible)}
-        >
-          <Text style={styles.showPasswordButtonText}>
-            {isPasswordVisible ? "Приховати" : "Показати"}
-          </Text>
-        </TouchableOpacity>
-      </View>
-      <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-        <Text style={styles.loginButtonText}>Увійти</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.registerLink}
-        onPress={navigateToRegistration}
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <ImageBackground
+        source={BgImage}
+        // resizeMode="contain"
+        style={styles.image}
       >
-        <Text style={styles.registerLinkText}>
-          Немає акаунту? Зареєструватися
-        </Text>
-      </TouchableOpacity>
-    </View>
+        <KeyboardAvoidingView
+          behavior={Platform.OS == "ios" ? "padding" : "height"}
+        >
+          <View
+            style={{
+              ...styles.container,
+              marginTop: isShowKeyboard ? -250 : -470,
+            }}
+          >
+            <Text style={styles.title}>Увійти</Text>
+
+            <TextInput
+              style={[styles.input, isFocusedName && styles.inputActive]}
+              placeholder="Введіть ім'я користувача"
+              value={name}
+              onChangeText={setName}
+              onFocus={
+                (() => setIsFocusedName(true), () => setIsShowKeyboard(true))
+              }
+              onBlur={
+                (() => setIsFocusedName(false), () => setIsShowKeyboard(false))
+              }
+            />
+
+            <View style={styles.passwordInputContainer}>
+              <TextInput
+                style={[isFocusedPassword && styles.inputActive]}
+                value={password}
+                onChangeText={setPassword}
+                placeholder="Пароль"
+                secureTextEntry={!isPasswordVisible}
+                onFocus={
+                  (() => setIsFocusedPassword(true),
+                  () => setIsShowKeyboard(true))
+                }
+                onBlur={
+                  (() => setIsFocusedPassword(false),
+                  () => setIsShowKeyboard(false))
+                }
+              />
+              <TouchableOpacity
+                style={styles.showPasswordButton}
+                onPress={() => setIsPasswordVisible(!isPasswordVisible)}
+              >
+                <Text style={styles.showPasswordButtonText}>
+                  {isPasswordVisible ? "Приховати" : "Показати"}
+                </Text>
+              </TouchableOpacity>
+            </View>
+
+            <TouchableOpacity style={styles.loginButton} onPress={onLogin}>
+              <Text style={styles.loginButtonText}>Увійти</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.registerLink}
+              onPress={navigateToRegistration}
+            >
+              <Text style={styles.registerLinkText}>
+                Немає акаунту? Зареєструватися
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </KeyboardAvoidingView>
+      </ImageBackground>
+    </TouchableWithoutFeedback>
   );
 };
 
 const styles = StyleSheet.create({
+  image: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "flex-end",
+  },
   container: {
     flex: 1,
     backgroundColor: "white",
-    marginTop: "80%",
+    // marginTop: "90%",
     borderTopLeftRadius: "25px",
     borderTopRightRadius: "25px",
 
     fontFamily: "Roboto",
   },
+
   title: {
     marginTop: 32,
     textAlign: "center",
 
     fontSize: 30,
 
-    fontWeight: 500,
+    fontWeight: "500",
     lineHeight: 35,
     letterSpacing: 0.01,
   },
+
   input: {
     marginTop: 32,
     marginLeft: 16,
@@ -118,7 +177,7 @@ const styles = StyleSheet.create({
     color: "#1B4371",
     textAlign: "center",
     fontSize: 16,
-    fontWeight: 400,
+    fontWeight: "400",
     lineHeight: 19,
     letterSpacing: 0,
   },
@@ -134,7 +193,7 @@ const styles = StyleSheet.create({
   loginButtonText: {
     color: "white",
     fontSize: 16,
-    fontWeight: 400,
+    fontWeight: "400",
     lineHeight: 19,
   },
 

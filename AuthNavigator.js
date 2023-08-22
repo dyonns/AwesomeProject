@@ -1,12 +1,13 @@
+import LoginScreen from "./Screens/LoginScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import LoginScreen from "./Screens/LoginScreen";
 import RegistrationScreen from "./Screens/RegistrationScreen";
 import "react-native-gesture-handler";
+import CreatePostsScreen from "./Screens/ProfileScreen";
 
 const MainStack = createStackNavigator();
 
-const AppNavigator = () => {
+export default function AuthNavigator() {
   return (
     <NavigationContainer initialRouteName="LoginScreen">
       <MainStack.Navigator>
@@ -14,26 +15,20 @@ const AppNavigator = () => {
           name="LoginScreen"
           component={LoginScreen}
           options={{
-            title: "",
-            headerStyle: {
-              backgroundColor: "transparent",
-            },
+            headerShown: false,
           }}
         />
         <MainStack.Screen
           name="RegistrationScreen"
           component={RegistrationScreen}
-          options={{
-            title: "",
-            headerLeft: null,
-            headerStyle: {
-              backgroundColor: "transparent",
-            },
-          }}
+          options={{ headerShown: false }}
+        />
+        <MainStack.Screen
+          name="CreatePostsScreen"
+          component={CreatePostsScreen}
+          options={{ headerShown: false }}
         />
       </MainStack.Navigator>
     </NavigationContainer>
   );
-};
-
-export default AppNavigator;
+}

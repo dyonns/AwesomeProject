@@ -1,29 +1,27 @@
-import React from "react";
-import { StatusBar } from "expo-status-bar";
-import { ImageBackground, StyleSheet, View } from "react-native";
-import LoginScreen from "./Screens/LoginScreen";
+import { StyleSheet, View } from "react-native";
 import { useFonts } from "expo-font";
-import AppNavigator from "./AppNavigator";
+import { createStackNavigator } from "@react-navigation/stack";
+import "react-native-gesture-handler";
+import MainNavigator from "./MainNavigator";
+import AuthNavigator from "./AuthNavigator";
 
-import BgImage from "./images/Photo_min.jpg";
+const MainStack = createStackNavigator();
 
 export default function App() {
   const [fontsLoaded] = useFonts({
     Roboto: require("./assets/fonts/Roboto.ttf"),
   });
 
+  // const isAuthenticated = false;
+  const isAuthenticated = true;
+
   if (!fontsLoaded) {
     return null;
   }
+
   return (
     <View style={styles.container}>
-      <ImageBackground
-        source={BgImage}
-        resizeMode="contain"
-        style={styles.image}
-      >
-        <AppNavigator />
-      </ImageBackground>
+      {isAuthenticated ? <MainNavigator /> : <AuthNavigator />}
     </View>
   );
 }
@@ -31,9 +29,5 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  image: {
-    flex: 1,
-    justifyContent: "center",
   },
 });

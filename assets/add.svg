@@ -1,7 +1,0 @@
-<svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-<symbol id="icon-icon-block" viewBox="0 0 36 32">
-<path fill="#bedbb0" style="fill: var(--color1, #bedbb0)" d="M5.333 0h24.889c2.946 0 5.333 2.388 5.333 5.333v21.333c0 2.946-2.388 5.333-5.333 5.333h-24.889c-2.946 0-5.333-2.388-5.333-5.333v-21.333c0-2.946 2.388-5.333 5.333-5.333z"></path>
-<path fill="none" stroke="#121212" style="stroke: var(--color2, #121212)" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="4" stroke-width="1.6" d="M17.778 10.815v10.37"></path>
-<path fill="none" stroke="#121212" style="stroke: var(--color2, #121212)" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="4" stroke-width="1.6" d="M12.593 16h10.37"></path>
-</symbol>
-</svg>
