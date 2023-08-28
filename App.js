@@ -1,33 +1,33 @@
-import { StyleSheet, View } from "react-native";
-import { useFonts } from "expo-font";
-import { createStackNavigator } from "@react-navigation/stack";
-import "react-native-gesture-handler";
-import MainNavigator from "./MainNavigator";
-import AuthNavigator from "./AuthNavigator";
+import React, { useEffect } from "react";
 
-const MainStack = createStackNavigator();
+import { useFonts } from "expo-font";
+
+import RootNavigator from "./src/navigation/RootNavigator";
+import "react-native-gesture-handler";
+
+import * as Font from "expo-font";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
-    Roboto: require("./assets/fonts/Roboto.ttf"),
+    "Roboto-Medium": require("./assets/fonts/Roboto-Medium.ttf"),
+    "Roboto-Regular": require("./assets/fonts/Roboto-Regular.ttf"),
+    "Roboto-Bold": require("./assets/fonts/Roboto-Bold.ttf"),
   });
 
-  // const isAuthenticated = false;
-  const isAuthenticated = true;
+  useEffect(() => {
+    async function loadFonts() {
+      await Font.loadAsync({
+        "Roboto-Regular": require("./assets/fonts/Roboto-Regular.ttf"),
+        "Roboto-Medium": require("./assets/fonts/Roboto-Medium.ttf"),
+        "Roboto-Bold": require("./assets/fonts/Roboto-Bold.ttf"),
+      });
+    }
+    loadFonts();
+  }, []);
 
   if (!fontsLoaded) {
     return null;
   }
 
-  return (
-    <View style={styles.container}>
-      {isAuthenticated ? <MainNavigator /> : <AuthNavigator />}
-    </View>
-  );
+  return <RootNavigator />;
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
